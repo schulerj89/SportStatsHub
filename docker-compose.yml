@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  go-backend:
+    build:
+      context: ./go_backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+    networks:
+      - app-network
+
+  ruby-backend:
+    build:
+      context: ./ruby_backend/sportstatshub
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - RAILS_ENV=development
+      - PORT=4000
+      - SECRET_KEY_BASE=d4da938ebfed740f30987375a30bccad09caddf9a9224d3ead112222355b9846a54a0608aa10372effcdbfd2f71a2994f4704d13d63ad4e521a44aa9e83a61de
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend/sport-stats-hub
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - go-backend
+      - ruby-backend
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: sport_stats
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  postgres_data:

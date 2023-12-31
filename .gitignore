@@ -15,7 +15,37 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
+node_modules/
 
 # Go workspace file
 go.work
+
+# Ruby
+# Ignore bundler config.
+ruby_backend/sportstatshub/.bundle
+
+# Ignore all environment files (except templates).
+ruby_backend/sportstatshub/.env*
+!ruby_backend/sportstatshub/.env*.erb
+
+# Ignore all logfiles and tempfiles.
+ruby_backend/sportstatshub/log/*
+ruby_backend/sportstatshub/tmp/*
+!ruby_backend/sportstatshub/log/.keep
+!ruby_backend/sportstatshub/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+ruby_backend/sportstatshub/tmp/pids/*
+!ruby_backend/sportstatshub/tmp/pids/
+!ruby_backend/sportstatshub/tmp/pids/.keep
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+ruby_backend/sportstatshub/storage/*
+!ruby_backend/sportstatshub/storage/.keep
+ruby_backend/sportstatshub/tmp/storage/*
+ruby_backend/sportstatshub!/tmp/storage/
+ruby_backend/sportstatshub!/tmp/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+ruby_backend/sportstatshub/config/master.key
